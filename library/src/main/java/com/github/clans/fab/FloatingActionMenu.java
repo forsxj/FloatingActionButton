@@ -726,6 +726,7 @@ public class FloatingActionMenu extends ViewGroup
 				View child = getChildAt(i);
 				if (mHiddenFabButtonIdList.contains(child.getId()))
 				{
+					child.setVisibility(GONE);
 					continue;
 				}
 				if (child instanceof FloatingActionButton
@@ -800,10 +801,6 @@ public class FloatingActionMenu extends ViewGroup
 			for (int i = 0; i < getChildCount(); i++)
 			{
 				View child = getChildAt(i);
-				if (mHiddenFabButtonIdList.contains(child.getId()))
-				{
-					continue;
-				}
 				if (child instanceof FloatingActionButton
 						&& child != mMenuButton && child.getVisibility() != GONE)
 				{
@@ -842,6 +839,18 @@ public class FloatingActionMenu extends ViewGroup
 					if (mToggleListener != null)
 					{
 						mToggleListener.onMenuToggle(false);
+					}
+					for (int i = 0; i < getChildCount(); i++)
+					{
+						View child =  getChildAt(i);
+						if (child instanceof FloatingActionButton
+								&& child != mMenuButton && child.getVisibility() == GONE)
+						{
+							if (mHiddenFabButtonIdList.contains(child.getId()))
+							{
+								child.setVisibility(INVISIBLE);
+							}
+						}
 					}
 				}
 			}, ++counter * mAnimationDelayPerItem);
